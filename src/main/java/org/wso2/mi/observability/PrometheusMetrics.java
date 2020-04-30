@@ -25,7 +25,7 @@ import io.prometheus.client.Histogram;
 public final class PrometheusMetrics {
 
     /**
-     * Counters for instrumenting metrics for Proxy Services
+     * Counters for instrumenting metrics for Proxy Services.
      **/
     public static final Counter TOTAL_REQUESTS_RECEIVED_PROXY = Counter.build("total_request_count_proxy_serv", "Total number of requests. "
             + "to a proxy service").labelNames("service", "remoteAddress").register();
@@ -34,7 +34,7 @@ public final class PrometheusMetrics {
             "Total number of error requests to a proxy service").labelNames("service", "remoteAddress").register();
 
     /**
-     * Counters for instrumenting metrics for APIs
+     * Counters for instrumenting metrics for APIs.
      **/
     public static final Counter TOTAL_REQUESTS_RECEIVED_API = Counter.build("total_request_count_api",
             "Total number of requests to an API.").labelNames("apiName", "invocationUrl", "remoteAddress").register();
@@ -43,7 +43,7 @@ public final class PrometheusMetrics {
             "Total number of error requests to an api").labelNames("api_name", "invocationUrl", "remoteAddress").register();
 
     /**
-     * Counters for instrumenting metrics for Inbound Endpoints
+     * Counters for instrumenting metrics for Inbound Endpoints.
      **/
     public static final Counter TOTAL_REQUESTS_RECEIVED_INBOUND_ENDPOINT = Counter.build("total_request_count_inbound_endpoint",
             "Total number of requests to an Inbound Endpoint.").labelNames("inboundEndpointName").register();
@@ -51,7 +51,7 @@ public final class PrometheusMetrics {
     public static final Counter ERROR_REQUESTS_RECEIVED_INBOUND_ENDPOINT = Counter.build("total_error_request_count_inbound_endpoint",
             "Total number of error requests to an inbound endpoint").labelNames("inboundEndpointName", "remoteHost").register();
     /**
-     * Histograms for instrumenting metrics for Proxy Services
+     * Histograms for instrumenting metrics for Proxy Services.
      **/
 
     public static final Histogram PROXY_LATENCY_DURATION_HISTOGRAM = Histogram.build()
@@ -62,7 +62,7 @@ public final class PrometheusMetrics {
             .register();
 
     /**
-     * Histograms for instrumenting metrics for APIs
+     * Histograms for instrumenting metrics for APIs.
      **/
 
     public static final Histogram API_REQUEST_LATENCY_HISTOGRAM = Histogram.build()
@@ -73,7 +73,7 @@ public final class PrometheusMetrics {
             .register();
 
     /**
-     * Histograms for instrumenting metrics for Inbound Endpoints
+     * Histograms for instrumenting metrics for Inbound Endpoints.
      **/
     public static final Histogram INBOUND_ENDPOINT_LATENCY_HISTOGRAM = Histogram.build()
             .name("inbound_endpoint_latency_time_seconds")
@@ -83,17 +83,17 @@ public final class PrometheusMetrics {
             .register();
 
     /**
-     * Histograms timers for instrumenting metrics for Proxy Services
+     * Histograms timers for instrumenting metrics for Proxy Services.
      **/
     public static Histogram.Timer proxyLatencyTimer;
 
     /**
-     * Histograms timers for instrumenting metrics for APIs
+     * Histograms timers for instrumenting metrics for APIs.
      **/
     public static Histogram.Timer apiLatencyTimer;
 
     /**
-     * Histograms timers for instrumenting metrics for Inbound Endpoints
+     * Histograms timers for instrumenting metrics for Inbound Endpoints.
      **/
     public static Histogram.Timer inboundEndpointLatencyTimer;
 }

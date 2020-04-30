@@ -52,7 +52,7 @@ public class CustomObservabilitySynapseHandler extends AbstractSynapseErrorHandl
 
             PrometheusMetrics.ERROR_REQUESTS_RECEIVED_PROXY_SERVICE.labels(name, host).inc();
             double i = PrometheusMetrics.ERROR_REQUESTS_RECEIVED_PROXY_SERVICE.labels(name, host).get();
-            System.out.println("Niiiiiiiiiiiiiiiii");
+
             System.out.println(PrometheusMetrics.ERROR_REQUESTS_RECEIVED_PROXY_SERVICE.labels(name, host).get());
         } else if (null != synCtx.getProperty(SynapseConstants.IS_INBOUND)) {
             String inboundEndpointName = synCtx.getProperty("inbound.endpoint.name").toString();
@@ -99,20 +99,19 @@ public class CustomObservabilitySynapseHandler extends AbstractSynapseErrorHandl
         DefaultExports.initialize();
 
         org.apache.axis2.context.MessageContext axis2MessageContext = ((Axis2MessageContext) synCtx)
-                .getAxis2MessageContext();
+                                                               .getAxis2MessageContext();
 
         String remoteAddr = (String) axis2MessageContext.getProperty(
-                org.apache.axis2.context.MessageContext.REMOTE_ADDR);
+                                                                org.apache.axis2.context.MessageContext.REMOTE_ADDR);
 
         if (null != synCtx.getProperty(SynapseConstants.PROXY_SERVICE)) {
-            String proxyName = axis2MessageContext.getAxisService().getName();
+                                                   String proxyName = axis2MessageContext.getAxisService().getName();
 
             PrometheusMetrics.TOTAL_REQUESTS_RECEIVED_PROXY.labels(proxyName, remoteAddr).inc();
             PrometheusMetrics.proxyLatencyTimer = PrometheusMetrics.PROXY_LATENCY_DURATION_HISTOGRAM.labels(proxyName).
-                                                                                                           startTimer();
+                                                                                                 startTimer();
 
             synCtx.setProperty("HistogramTimer", PrometheusMetrics.proxyLatencyTimer);
-
         } else if (null != synCtx.getProperty(SynapseConstants.IS_INBOUND)) {
             String inboundEndpointName = synCtx.getProperty("inbound.endpoint.name").toString();
 
@@ -121,7 +120,6 @@ public class CustomObservabilitySynapseHandler extends AbstractSynapseErrorHandl
                     labels(inboundEndpointName).startTimer();
 
             synCtx.setProperty("HistogramTimer", PrometheusMetrics.inboundEndpointLatencyTimer);
-
         } else {
             String context = axis2MessageContext.getProperty("TransportInURL").toString();
             String apiInvocationUrl = axis2MessageContext.getProperty("SERVICE_PREFIX").toString() +
@@ -159,6 +157,7 @@ public class CustomObservabilitySynapseHandler extends AbstractSynapseErrorHandl
     public boolean handleResponseOutFlow(MessageContext synCtx) {
         if ((null != synCtx.getProperty("REST_FULL_REQUEST_PATH")) && (synCtx.getProperty("REST_FULL_REQUEST_PATH").
                                                                             equals("/metric-service/metrics"))) {
+            log.info("Loading the metrics endpoint");
 
         } else {
             if (null != PrometheusMetrics.proxyLatencyTimer) {
